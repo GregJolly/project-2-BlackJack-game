@@ -1,22 +1,52 @@
+body
+{
+    background-image: url("cards/pokerTable.jpg");
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
 .dealer 
 {
-    padding:100px;
-    background-color: aquamarine;
+    padding:80px;
+    display:flex; 
+    flex-direction: column;
+    
+}
+
+#dealers-card
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.dealer-sum
+{
+    text-align: center;
+    color: white; 
+    border-radius: 100%;
+    background-color: blueviolet;
+    margin: 50px auto;
+    padding: 25px;
 }
 .result
 {
-    padding: 100px;
-    background-color: beige;
+    padding: 25px;
+
+    text-align: center;
 }
 .player
 {
-    padding:100px;
+    padding:80px;
     display:flex; 
     flex-direction: column;
 }
 
 .player-sum{
     text-align: center;
+    color: white; 
 }
 .buttons
 {
