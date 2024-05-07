@@ -14,11 +14,13 @@ let dealersHand = [];
 
 function image(container, card)
 {
+    console.log(`this is the card: ${card}`);
     const img = document.createElement("img");
     img.src = `cards/${card}.png`;
     container.appendChild(img); 
-    
+   
 }
+
 function setCards() //loads card deck
 {
     for(let i=0; i<suites.length; i++)
@@ -30,30 +32,30 @@ function setCards() //loads card deck
     } 
 }
 
+function push(hand)
+{
+    let random = Math.floor(Math.random() * cards.length);
+    hand.push(cards[random]);
+    cards.splice(random, 1);
+}
 function deal() //inital deal
 {
 
     setCards();
 
-    let random = Math.floor(Math.random() * cards.length);
-    playersHand.push(cards[random]);
+    push(playersHand); 
     image(document.querySelector(".playerCards"),playersHand[0]);
-    cards.splice(random, 1);
-    random = Math.floor(Math.random() * cards.length);
-    dealersHand.push(cards[random]);
-    image(dealer, dealersHand[0]);  
-    cards.splice(random,1);
-    random = Math.floor(Math.random() * cards.length);
-    playersHand.push(cards[random])
+    push(dealersHand);
+    image(dealer, dealersHand[0]); 
+    push(playersHand);
     image(document.querySelector(".playerCards"),playersHand[1]);
-    cards.splice(random,1);
 
     sum(playersHand);
     sum(dealersHand); 
     blackjack(playersHand);
 
-    displayResult("PLAYER", playerResult, playersHand);
-    displayResult("DEALER", dealerScore, dealersHand);
+    displayResult(playerResult, playersHand);
+    displayResult(dealerScore, dealersHand);
     
 }
 
@@ -106,29 +108,33 @@ function check(sumOf){
         result.innerHTML = "BUST";
         gameOver();
     }
-    else
+    else if(sum(dealersHand) > sum(playersHand) && sum(dealersHand) <= 21)
     {
-        console.log("PRESS HIT OR STAND")
+        dealersWins();
     }
+    else{
 
-    
+    }
 }
 
 function hit()
 {
+    let i=2;
+
     random = Math.floor(Math.random() * cards.length);
-    playersHand.push(cards[random])
-    image(document.querySelector(".playerCards"),playersHand[0]);
-    cards.splice(random,1); 
+    playersHand.push(cards[random]);
+    cards.splice(random,1);
+    image(document.querySelector(".playerCards"),playersHand[i++]);
+    sum(playersHand);
     check(sum(playersHand)); 
-    displayResult("PLAYER", playerResult, playersHand);
+    displayResult(playerResult, playersHand);
     
     
 }
 
-function displayResult(name, score, hand)
+function displayResult(score, hand)
 {   
-    score.innerHTML = `${name} score: ${sum(hand)}`;
+    score.innerHTML = `${sum(hand)}`;
 }
 dealBtn.addEventListener('click',()=>
 {
@@ -145,7 +151,7 @@ hitBtn.addEventListener('click',()=>
 
 function blackjack(hand)
 {
-    if (sum === 21)
+    if (sum(dealersHand) === 21)
     {
         result.innerHTML= "BlackJack";
         gameOver();
@@ -155,21 +161,29 @@ function blackjack(hand)
 
 function dealerSum()
 {
+    let i =1;
     random = Math.floor(Math.random() * cards.length);
     dealersHand.push(cards[random]);
+    image(dealer, dealersHand[i++]);
     cards.splice(random,1);
-    
     blackjack(dealersHand);
+    sum(dealersHand);
+    check(sum(dealersHand)); 
+    
+    
     
     while(sum(dealersHand) < 21)
     {
+       
         random = Math.floor(Math.random() * cards.length);
         dealersHand.push(cards[random]);
+        image(dealer, dealersHand[i++]);
         cards.splice(random,1);
+        sum(dealersHand);
         check(sum(dealersHand)); 
-        image(dealer, dealersHand[i]);;
+        
 
-        displayResult("DEALER", dealerScore, dealersHand);
+        displayResult( dealerScore, dealersHand);
         winDecision();
         
     }    
@@ -179,6 +193,9 @@ function dealerSum()
 function dealersWins(){
 
     result.innerHTML = "DEALER WINS"; 
+    gameOver();
+
+    return;
 
 } 
 
