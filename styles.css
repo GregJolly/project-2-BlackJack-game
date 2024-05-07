@@ -1,0 +1,48 @@
+.dealer 
+{
+    padding:100px;
+    background-color: aquamarine;
+}
+.result
+{
+    padding: 100px;
+    background-color: beige;
+}
+.player
+{
+    padding:100px;
+    display:flex; 
+    flex-direction: column;
+}
+
+.player-sum{
+    text-align: center;
+}
+.buttons
+{
+      
+    display:flex; 
+    align-items: center;
+    justify-content: space-between; 
+    padding: 100px;
+    padding-left: 300px;
+    padding-right: 300px;  
+}
+
+.playerCards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Align cards horizontally at the center */
+}
+
+.dealer img, .playerCards img {
+    width: 100px; /* Adjust card width as needed */
+    margin-right: 10px; /* Adjust margin between cards as needed */
+}
+
+button
+{
+    padding: 50px;
+
+  
+}
