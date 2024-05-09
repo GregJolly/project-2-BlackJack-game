@@ -1,5 +1,6 @@
 
 const dealer = document.querySelector("#dealers-card");
+const imgElements = dealer.querySelectorAll("img");
 const dealBtn = document.querySelector(".deal"); 
 const hitBtn = document.querySelector(".hit"); 
 const standBtn = document.querySelector(".stand"); 
@@ -9,17 +10,31 @@ let playerResult = document.querySelector(".player-sum")
 const values = ["ace", "2", "3","4","5","6","7","8","9","10","king","queen","jack"];
 const suites = ["hearts", "diamonds", "spades", "clubs"];
 const cards = [];
+const resetBtn = document.querySelector(".reset");
 let playersHand = []; 
 let dealersHand = []; 
+let dealerImages = []; 
+let playerImages = []; 
+const welcomeTitle = document.querySelector(".welcome")
+const bustGame = document.querySelector(".bust-game"); 
+const pushGame = document.querySelector(".push")
+const dealerTitle = document.querySelector(".dealer-win");
+const playerTitle = document.querySelector(".player-win");
+let hitCount = 2; 
+const playAgain = document.querySelector('.play-again'); 
+
 
 function image(container, card)
 {
-    console.log(`this is the card: ${card}`);
+  
     const img = document.createElement("img");
     img.src = `cards/${card}.png`;
     container.appendChild(img); 
+    return img;
    
 }
+
+
 
 function setCards() //loads card deck
 {
@@ -41,14 +56,20 @@ function push(hand)
 function deal() //inital deal
 {
 
-    setCards();
+    if(cards.length <=10){
+        setCards();
+    }
+        
 
     push(playersHand); 
-    image(document.querySelector(".playerCards"),playersHand[0]);
+    let playerImg = image(document.querySelector(".playerCards"),playersHand[0]);
+    playerImages.push(playerImg);
     push(dealersHand);
-    image(dealer, dealersHand[0]); 
+    let dealerImg = image(dealer, dealersHand[0]);
+    dealerImages.push(dealerImg); 
     push(playersHand);
-    image(document.querySelector(".playerCards"),playersHand[1]);
+    playerImg = image(document.querySelector(".playerCards"),playersHand[1]);
+    playerImages.push(playerImg);
 
     sum(playersHand);
     sum(dealersHand); 
@@ -59,7 +80,21 @@ function deal() //inital deal
     
 }
 
-function sum(hand) //find sum 
+
+//find sum of the hand
+
+function check(sumOf){
+    
+    if(sumOf > 21)
+    {
+        bustGame.style.display = 'block';
+     
+        gameOver();
+    }
+}    
+
+
+function sum(hand)
 {
 
     let sum = 0;
@@ -90,68 +125,101 @@ function sum(hand) //find sum
 
     }
 
-
-
     return sum;
 }
 
+
+//the game is over
+
 function gameOver()
 {
+    
     hitBtn.style.display = "none"; 
     standBtn.style.display = "none"; 
-}
+    resetBtn.style.display= "block"; 
 
-function check(sumOf){
     
-    if(sumOf> 21)
-    {
-        result.innerHTML = "BUST";
-        gameOver();
-    }
-    else if(sum(dealersHand) > sum(playersHand) && sum(dealersHand) <= 21)
-    {
-        dealersWins();
-    }
-    else{
-
-    }
+    return;
 }
 
-function hit()
+
+//check if its a bust
+
+
+function resetGame()
 {
-    let i=2;
 
-    random = Math.floor(Math.random() * cards.length);
-    playersHand.push(cards[random]);
-    cards.splice(random,1);
-    image(document.querySelector(".playerCards"),playersHand[i++]);
-    sum(playersHand);
-    check(sum(playersHand)); 
-    displayResult(playerResult, playersHand);
+    playersHand = [];
+    dealersHand = []; 
+    dealerImages.forEach(img =>{
+        img.remove();
+    });
+    playerImages.forEach(img => {
+        img.remove();
+    });
+    dealerImages = [];
+    playerImages =[];
+    hitCount = 2;
     
     
+    console.log(playerImages.length)
+
+
+
 }
 
+//what happens when you press HIT 
+function hit(i)
+{
+    
+    if (sum(playersHand) <= 21)
+    {
+        push(playersHand); 
+        check(sum(playersHand)); 
+        displayResult(playerResult, playersHand);
+        let playerImg = image(document.querySelector(".playerCards"), playersHand[i]);
+        playerImages.push(playerImg);
+        console.log(playerImages.length);
+    }
+}
+
+
+//SHOWS THE SUM OF THE HAND
 function displayResult(score, hand)
 {   
     score.innerHTML = `${sum(hand)}`;
 }
+
+
+//DEAL BUTTON 
 dealBtn.addEventListener('click',()=>
 {
     dealBtn.style.display = 'none'; 
-    deal(); 
+    standBtn.style.display = 'block'
+    hitBtn.style.display = 'block'; 
+    welcomeTitle.style.display = 'none';
+    pushGame.style.display = 'none';
+    dealerScore.style.display = 'block';
+    playerResult.style.display = 'block';
+    playAgain.style.display = 'none'; 
+    
+    deal(dealer); 
     
 })
 
+
+
+//HIT BUTTON
 hitBtn.addEventListener('click',()=>
 {
-    hit();
-
+    hit(hitCount);
+    hitCount++; 
 })
 
+//CHECK IF IT'S A BLACKJACK
 function blackjack(hand)
 {
-    if (sum(dealersHand) === 21)
+    if (sum(hand) === 21)
     {
         result.innerHTML= "BlackJack";
         gameOver();
@@ -159,86 +227,110 @@ function blackjack(hand)
     
 }
 
-function dealerSum()
-{
-    let i =1;
-    random = Math.floor(Math.random() * cards.length);
-    dealersHand.push(cards[random]);
-    image(dealer, dealersHand[i++]);
-    cards.splice(random,1);
-    blackjack(dealersHand);
-    sum(dealersHand);
-    check(sum(dealersHand)); 
-    
-    
-    
-    while(sum(dealersHand) < 21)
-    {
-       
-        random = Math.floor(Math.random() * cards.length);
-        dealersHand.push(cards[random]);
-        image(dealer, dealersHand[i++]);
-        cards.splice(random,1);
-        sum(dealersHand);
-        check(sum(dealersHand)); 
-        
 
-        displayResult( dealerScore, dealersHand);
-        winDecision();
+//the DEALER'S TURN
+function dealerSum()
+{   
+    let i =1;
+    do
+    {
+
+        push(dealersHand); 
+        let dealerImg = image(dealer, dealersHand[i++]);
+        dealerImages.push(dealerImg); 
+       
         
+        displayResult( dealerScore, dealersHand);
+       
+      
+
+        checkDealer(); 
+        
+    }
+    while (sum(dealersHand) < 21 && sum(dealersHand) < sum(playersHand))
+   
+
+}
+function checkDealer()
+{   
+    if (sum(dealersHand) > 21)
+    {
+        playerWins();
+        gameOver();
     }    
-    
+    else if (sum(dealersHand) > sum(playersHand) && sum(dealersHand) <= 21 )
+    {
+
+  
+        dealersWins();
+        gameOver();
+    }
+    else if(sum(dealersHand) > sum(playersHand) && sum(dealersHand) > 21)
+    {
+        playerWins();
+        gameOver(); 
+    }
+    else if(sum(dealersHand) === sum(playersHand))
+    {
+        pushGame.style.display = "block";
+        gameOver();
+    }
 }
 
-function dealersWins(){
+//THE DEALER HAS WON
 
-    result.innerHTML = "DEALER WINS"; 
-    gameOver();
 
-    return;
 
+function dealersWins()
+{   
+    dealerTitle.style.display = "block"
 } 
+
+
+//THE PLAYER HAS WON 
 
 function playerWins()
 {
-    result.innerHTML = "PLAYER WINS"
+    playerTitle.style.display = "block";
+
 }
 
 
+// THE STAND DOES THIS 
 function stand()
 {
     
     hitBtn.style.display = "none"; 
     standBtn.style.display="none"; 
+   
     dealerSum(); 
+    
 }
 
-function winDecision()
-{
-    if(sum(dealersHand) > sum(playersHand) && sum(dealersHand) <= 21)
-    {
-        dealersWins(); 
-    }
-    else if(sum(dealersHand) === sum(playersHand))
-    {
-        result.innerHTML = "PUSH"
-        gameOver(); 
-    }
-    else if(sum(dealersHand) > 21 && sum(playersHand) <= 21)
-    {
-        playerWins();
-        gameOver();
-    }
-    else
-    {
-        playerWins(); 
-    }
 
-    gameOver(); 
-}
 
 
 standBtn.addEventListener("click", ()=>
 {
     stand();
 })
+
+
+resetBtn.addEventListener("click", ()=>
+{
+    dealBtn.style.display= 'block';
+    dealerTitle.style.display = 'none'; 
+    playerTitle.style.display = 'none';
+    bustGame.style.display = 'none';
+    pushGame.style.display = 'none'; 
+    resetBtn.style.display = "none";
+    dealerScore.style.display = 'none';
+    playerResult.style.display = 'none'; 
+    playAgain.style.display = 'block'; 
+    
+    resetGame(); 
+    
+
+});
+
+
