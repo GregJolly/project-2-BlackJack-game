@@ -1,11 +1,71 @@
 body
 {
-    background-image: url("cards/pokerTable.jpg");
+  
+    height: 100vh;
+    width:100%;
+    overflow:hidden; 
+    margin:0;
+    padding:0;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  
+    background-color: #000000;
+
+}
+
+
+
+.player-win,.dealer-win,.play-again
+{
+    display:none;
+    position: absolute;
+    top: 43%;
+    left: 13%;
+    height: 40px;
+    width: auto; 
+}
+
+.bust-game, .push{
+    position: absolute;
+    top: 40%;
+    right: 18.50%;
+    display: none;
+
+}
+.welto
+{
+    position: absolute; 
+    top: 39%;
+    height: 40px;
+    width: auto; 
+
+}
+
+.title-name
+{   
+    position:absolute;
+    top: 45%;
+    height: 60px;
+}
+.game
+{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+.lead
+{
+    background-image: url("cards/Default.png");
     background-size: cover; 
     background-position: center;
     background-repeat: no-repeat;
+    height: 500px; 
+    width: 500px;
+    position: absolute; 
+    top:16%;
+   
 }
-
 
 .dealer 
 {
@@ -20,22 +80,35 @@ body
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    position: absolute;
+    top: 10%;
+    left: 29%;
 }
+
+#dealers-card img
+{
+    height: 130px;
+    width: 90px; 
+}
+
 
 .dealer-sum
 {
+    
     text-align: center;
     color: white; 
     border-radius: 100%;
-    background-color: blueviolet;
-    margin: 50px auto;
+    font-weight: bold;
+    position: absolute; 
+    top: 16%;
+    left: 80%;
+    margin: 10px auto;
     padding: 25px;
 }
 .result
 {
-    padding: 25px;
-
     text-align: center;
+    color: white; 
 }
 .player
 {
@@ -44,9 +117,17 @@ body
     flex-direction: column;
 }
 
+
 .player-sum{
     text-align: center;
+    font-weight: 1000;
     color: white; 
+    border-radius: 100%;
+    position: absolute; 
+    top: 63%;
+    left: 11%;
+    margin: 10px auto;
+    padding: 5px;
 }
 .buttons
 {
@@ -54,25 +135,93 @@ body
     display:flex; 
     align-items: center;
     justify-content: space-between; 
-    padding: 100px;
+   
     padding-left: 300px;
     padding-right: 300px;  
 }
-
-.playerCards {
-    display: flex;
+.playerCards
+{
     flex-wrap: wrap;
     justify-content: center; /* Align cards horizontally at the center */
+    position:absolute; 
+    top: 57%;
+    left: 29%;
+
 }
+
+.playerCards img
+{
+    height: 130px;
+    width: 20px; 
+}
+
+
+
+
 
 .dealer img, .playerCards img {
     width: 100px; /* Adjust card width as needed */
-    margin-right: 10px; /* Adjust margin between cards as needed */
+    margin-right: -60px; /* Adjust margin between cards as needed */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-button
-{
-    padding: 50px;
 
-  
+.stand, .hit
+{
+    display: none;
+}
+
+.deal{
+    cursor: pointer;
+    height: 40px;
+    width:auto;
+    position: absolute;
+    top: 86%;
+    left: 41%;
+    padding:0;
+    margin:0;  
+}
+.hit{
+    cursor: pointer;
+    height: 40px;
+    width:auto;
+    position: absolute;
+    top: 86%;
+    left: 28%;
+    padding:0;
+    margin:0;  
+}
+.stand
+{
+    cursor: pointer;
+    height: 40px;
+    width:auto;
+    position: absolute;
+    top: 86%;
+    left: 53%;
+    padding:0;
+    margin:0; 
+}
+
+
+.welcome{
+    display: flex; 
+    flex-direction:column; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+
+
+.reset
+{
+    cursor: pointer;
+    height: 40px;
+    width:auto;
+    position: absolute;
+    top: 86%;
+    left: 41%;
+    padding:0;
+    margin:0;  
+    display:none;
 }
