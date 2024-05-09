@@ -14,7 +14,56 @@ body
 
 }
 
+.money
+{
+    
+    position: absolute;
+    left: 66%;
+    top: 3.5%;
+    color: white; 
+    font-weight:bolder; 
+}
 
+
+
+.no-cash
+{
+    display:none;
+    position: absolute;
+    top: 43%;
+    left: 13%;
+    height: 30px;
+    width: auto; 
+}
+.bank
+{
+   
+    height: 23px;
+    position: absolute; 
+    left: 60%;
+    top: 3%;
+    
+}
+
+.enter-bet
+{
+    display:none;
+    position: absolute;
+    top: 43%;
+    left: 30%;
+    height: 30px;
+    width: auto; 
+}
+
+.invalid-bet
+{
+    display:none;
+    position: absolute;
+    top: 43%;
+    left: 25%;
+    height: 30px;
+    width: auto; 
+}
 
 .player-win,.dealer-win,.play-again
 {
@@ -82,7 +131,7 @@ body
     justify-content: center;
     position: absolute;
     top: 10%;
-    left: 29%;
+    left: 25%;
 }
 
 #dealers-card img
@@ -145,17 +194,28 @@ body
     justify-content: center; /* Align cards horizontally at the center */
     position:absolute; 
     top: 57%;
-    left: 29%;
+    left: 25%;
 
 }
 
 .playerCards img
 {
     height: 130px;
-    width: 20px; 
+    width: 19px; 
 }
 
+input
+{
+    position: absolute;
+    top: 70%;
+    left: 33%;
+    color: rgb(255, 255, 255);
+    background-color: rgb(38, 8, 66);
+    padding: 10px;
+    text-align: center;
+    border-radius: 10%;
 
+}
 
 
 
@@ -202,7 +262,19 @@ body
     padding:0;
     margin:0; 
 }
-
+.cancel
+{
+    display:none;
+    cursor: pointer;
+    height: 42px;
+    width:auto;
+    position: absolute;
+    top: 86%;
+    left: 53%;
+    padding:0;
+    margin:0; 
+ 
+}
 
 .welcome{
     display: flex; 
@@ -220,7 +292,7 @@ body
     width:auto;
     position: absolute;
     top: 86%;
-    left: 41%;
+    left: 28%;
     padding:0;
     margin:0;  
     display:none;

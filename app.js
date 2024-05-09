@@ -22,8 +22,22 @@ const dealerTitle = document.querySelector(".dealer-win");
 const playerTitle = document.querySelector(".player-win");
 let hitCount = 2; 
 const playAgain = document.querySelector('.play-again'); 
+const betValue = document.querySelector('.bet');
+let bet = 0; 
+let currentMoney = 2000; 
+const invalidBet = document.querySelector('.invalid-bet');
+const noCash = document.querySelector('.no-cash');
+const enterBet = document.querySelector('.enter-bet');
+const bankMoney = document.querySelector('.money');
+const cancelBtn = document.querySelector('.cancel'); 
 
+updateMoneyText();
 
+function updateMoneyText() {
+    
+    bankMoney.innerHTML = `${currentMoney}`;
+    
+}
 function image(container, card)
 {
   
@@ -33,6 +47,9 @@ function image(container, card)
     return img;
    
 }
+
+
+
 
 
 
@@ -77,7 +94,8 @@ function deal() //inital deal
 
     displayResult(playerResult, playersHand);
     displayResult(dealerScore, dealersHand);
-    
+
+
 }
 
 
@@ -87,8 +105,11 @@ function check(sumOf){
     
     if(sumOf > 21)
     {
+        
         bustGame.style.display = 'block';
-     
+        currentMoney -= bet;
+        console.log(currentMoney);
+        updateMoneyText();
         gameOver();
     }
 }    
@@ -137,7 +158,7 @@ function gameOver()
     hitBtn.style.display = "none"; 
     standBtn.style.display = "none"; 
     resetBtn.style.display= "block"; 
-
+    cancelBtn.style.display = 'block';
     
     return;
 }
@@ -194,17 +215,44 @@ function displayResult(score, hand)
 //DEAL BUTTON 
 dealBtn.addEventListener('click',()=>
 {
-    dealBtn.style.display = 'none'; 
-    standBtn.style.display = 'block'
-    hitBtn.style.display = 'block'; 
+    bet = parseInt(betValue.value);
     welcomeTitle.style.display = 'none';
-    pushGame.style.display = 'none';
-    dealerScore.style.display = 'block';
-    playerResult.style.display = 'block';
-    playAgain.style.display = 'none'; 
-    
-    deal(dealer); 
-    
+    if(bet > 0 && bet <= currentMoney)
+    {
+        dealBtn.style.display = 'none'; 
+        standBtn.style.display = 'block'
+        hitBtn.style.display = 'block'; 
+        pushGame.style.display = 'none';
+        dealerScore.style.display = 'block';
+        playerResult.style.display = 'block';
+        playAgain.style.display = 'none'; 
+        betValue.style.display = 'none';
+        enterBet.style.display = 'none'; 
+        invalidBet.style.display = 'none';
+        noCash.style.display = 'none';
+
+        
+        deal(); 
+    }
+    else if(bet > currentMoney){
+        enterBet.style.display = 'none'; 
+        invalidBet.style.display = 'none';
+        noCash.style.display = 'block'; 
+    }
+    else if (bet < 0)
+    {
+        enterBet.style.display = 'none';
+        noCash.style.display = 'none';
+        invalidBet.style.display = 'block';
+
+    }
+    else 
+    {
+        invalidBet.style.display = 'none';
+        noCash.style.display = 'none';
+        enterBet.style.display = 'block';
+    }
+
 })
 
 
@@ -231,10 +279,11 @@ function blackjack(hand)
 //the DEALER'S TURN
 function dealerSum()
 {   
+    
     let i =1;
     do
     {
-
+        
         push(dealersHand); 
         let dealerImg = image(dealer, dealersHand[i++]);
         dealerImages.push(dealerImg); 
@@ -283,7 +332,10 @@ function checkDealer()
 
 function dealersWins()
 {   
-    dealerTitle.style.display = "block"
+    currentMoney -= bet;
+    updateMoneyText();
+    dealerTitle.style.display = "block";
+    
 } 
 
 
@@ -291,6 +343,8 @@ function dealersWins()
 
 function playerWins()
 {
+    currentMoney += bet;
+    updateMoneyText();
     playerTitle.style.display = "block";
 
 }
@@ -303,12 +357,20 @@ function stand()
     hitBtn.style.display = "none"; 
     standBtn.style.display="none"; 
    
-    dealerSum(); 
     
+    dealerSum();
 }
 
 
-
+function cancel()
+{
+    resetGame();
+    bet = 0; 
+    resetBtn.style.display = 'none';  
+    betValue.style.display = 'block';
+    dealBtn.style.display = 'block';
+    
+}
 
 standBtn.addEventListener("click", ()=>
 {
@@ -326,11 +388,24 @@ resetBtn.addEventListener("click", ()=>
     resetBtn.style.display = "none";
     dealerScore.style.display = 'none';
     playerResult.style.display = 'none'; 
-    playAgain.style.display = 'block'; 
+    cancelBtn.style.display = 'none'; 
     
     resetGame(); 
     
 
 });
 
-
+cancelBtn.addEventListener('click', ()=>{
+    dealBtn.style.display= 'block';
+    dealerTitle.style.display = 'none'; 
+    playerTitle.style.display = 'none';
+    bustGame.style.display = 'none';
+    pushGame.style.display = 'none'; 
+    resetBtn.style.display = "none";
+    dealerScore.style.display = 'none';
+    playerResult.style.display = 'none'; 
+    cancelBtn.style.display= 'none';
+    enterBet.style.display = 'block';
+    
+    cancel(); 
+})
