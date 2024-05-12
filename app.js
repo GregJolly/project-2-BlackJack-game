@@ -159,7 +159,7 @@ function gameOver()
     standBtn.style.display = "none"; 
     resetBtn.style.display= "block"; 
     cancelBtn.style.display = 'block';
-    
+    console.log(cards.length);
     return;
 }
 
