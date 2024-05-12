@@ -154,13 +154,25 @@ function sum(hand)
 
 function gameOver()
 {
-    
-    hitBtn.style.display = "none"; 
-    standBtn.style.display = "none"; 
-    resetBtn.style.display= "block"; 
-    cancelBtn.style.display = 'block';
-    console.log(cards.length);
-    return;
+    //if the current money is less than the bet
+    if(currentMoney > bet)
+    {
+        hitBtn.style.display = "none"; 
+        standBtn.style.display = "none"; 
+        resetBtn.style.display= "block"; 
+        cancelBtn.style.display = 'block';
+        console.log(cards.length);
+        return;  
+    }
+    else
+    {
+        hitBtn.style.display = "none"; 
+        standBtn.style.display = "none"; 
+        resetBtn.style.display= "none"; 
+        cancelBtn.style.display = 'block';
+        console.log(cards.length);
+        return;  
+    }
 }
 
 
