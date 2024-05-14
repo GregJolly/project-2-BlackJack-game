@@ -30,6 +30,7 @@ const noCash = document.querySelector('.no-cash');
 const enterBet = document.querySelector('.enter-bet');
 const bankMoney = document.querySelector('.money');
 const cancelBtn = document.querySelector('.cancel'); 
+const gameOverTitle = document.querySelector(".game-over")
 
 updateMoneyText();
 
@@ -227,6 +228,7 @@ function displayResult(score, hand)
 //DEAL BUTTON 
 dealBtn.addEventListener('click',()=>
 {
+    gameOverTitle.style.display = 'none'; 
     bet = parseInt(betValue.value);
     welcomeTitle.style.display = 'none';
     if(bet > 0 && bet <= currentMoney)
@@ -243,6 +245,7 @@ dealBtn.addEventListener('click',()=>
         invalidBet.style.display = 'none';
         noCash.style.display = 'none';
 
+
         
         deal(); 
     }
@@ -256,6 +259,7 @@ dealBtn.addEventListener('click',()=>
         enterBet.style.display = 'none';
         noCash.style.display = 'none';
         invalidBet.style.display = 'block';
+        
 
     }
     else 
@@ -401,6 +405,7 @@ resetBtn.addEventListener("click", ()=>
     dealerScore.style.display = 'none';
     playerResult.style.display = 'none'; 
     cancelBtn.style.display = 'none'; 
+    gameOverTitle.style.display = 'none'; 
     
     resetGame(); 
     
@@ -408,6 +413,7 @@ resetBtn.addEventListener("click", ()=>
 });
 
 cancelBtn.addEventListener('click', ()=>{
+
     dealBtn.style.display= 'block';
     dealerTitle.style.display = 'none'; 
     playerTitle.style.display = 'none';
@@ -417,7 +423,19 @@ cancelBtn.addEventListener('click', ()=>{
     dealerScore.style.display = 'none';
     playerResult.style.display = 'none'; 
     cancelBtn.style.display= 'none';
-    enterBet.style.display = 'block';
+
+    if (currentMoney === 0)
+    {
+        currentMoney = 2000;
+        updateMoneyText(); 
+        gameOverTitle.style.display = 'block'; 
+
+    }
+    else 
+    {
+        enterBet.style.display = 'block';
+    }
+    
     
     cancel(); 
 })

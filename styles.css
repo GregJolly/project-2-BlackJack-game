@@ -64,7 +64,14 @@ body
     height: 30px;
     width: auto; 
 }
-
+.game-over
+{
+    display: none;
+    position: absolute;
+    top:43%;
+    height:60px;
+    left: 5%;
+}
 .player-win,.dealer-win,.play-again
 {
     display:none;
@@ -297,3 +304,4 @@ input
     margin:0;  
     display:none;
 }
+
